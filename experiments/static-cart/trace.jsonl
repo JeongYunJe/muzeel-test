@@ -1,0 +1,5 @@
+[{"event": "baseEvent", "xpath": "/html/body"}]
+[{"event": "baseEvent", "xpath": "/html/body"}, {"event": "click", "xpath": "(//button[@id='receiptButton'])[1]"}]
+[{"event": "baseEvent", "xpath": "/html/body"}, {"event": "click", "xpath": "(//button[@id='resetButton'])[1]"}]
+[{"event": "baseEvent", "xpath": "/html/body"}, {"event": "click", "xpath": "(//button[@id='sandwichButton'])[1]"}]
+[{"event": "baseEvent", "xpath": "/html/body"}, {"event": "click", "xpath": "(//button[@id='coffeeButton'])[1]"}]
