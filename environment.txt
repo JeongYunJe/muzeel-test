@@ -1,0 +1,21 @@
+Snapshot date: 2026-10-08 (Asia/Seoul)
+Experiment date: 2026-10-04 (Asia/Seoul)
+Upstream commit: 3dcce3ae78240855015748b5b536deb21a79d721
+Python 3.9.25
+selenium==4.8.3
+selenium-wire==5.1.0
+mitmproxy==9.0.1
+esprima==4.0.1
+PyMySQL==0.10.1
+beautifulsoup4==4.12.3
+psutil==5.9.8
+chromedriver-autoinstaller==0.6.4
+setuptools==80.9.0
+blinker==1.7.0
+
+Recorded at experiment time:
+Chrome 154.0.8037.97
+MySQL 8.0
+Mobile emulation: width=375 height=812 pixelRatio=3 mobile=true touch=true
+
+Selenium Wire remains installed; scraper and explorer use plain Selenium.

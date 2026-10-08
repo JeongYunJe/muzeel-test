@@ -1,0 +1,48 @@
+{
+  "experiment_date": "2026-10-04",
+  "report_date": "2026-10-08",
+  "timezone": "Asia/Seoul",
+  "upstream": "https://github.com/comnetsAD/Muzeel",
+  "upstream_commit": "3dcce3ae78240855015748b5b536deb21a79d721",
+  "local_modifications_applied": true,
+  "independent_post_optimization_regression_performed": false,
+  "runs": [
+    {
+      "id": "dynamic-dom",
+      "url": "http://muzeel.test:8000/",
+      "site_list": "reproduction_1",
+      "cache_basename": "c781510ba2edaced3206099c685435",
+      "run_count": 1,
+      "elapsed_seconds": 58.00879788398743,
+      "initial_event_count": 4,
+      "instrumented_functions_including_callbacks": 8,
+      "original_bytes": 1434,
+      "optimized_bytes": 1234,
+      "bytes_removed": 200,
+      "retained_functions": ["updateStatus", "handleInitialClick", "toggleMenu", "handleMenuItem", "DOMContentLoaded callback"],
+      "emptied_functions": ["handleDynamicClick", "handleInput", "neverCalledFunction"],
+      "incorrectly_emptied_required_functions": ["handleDynamicClick", "handleInput"],
+      "run_test_error_log_bytes": 0,
+      "evidence_level": "source_diff_and_saved_trace",
+      "input_failure_cause": "not_confirmed"
+    },
+    {
+      "id": "static-cart",
+      "url": "http://muzeel.test:8001/",
+      "site_list": "reproduction_2",
+      "cache_basename": "aca6fd1946d4f26a20f12460d400d0",
+      "run_count": 1,
+      "elapsed_seconds": 50.16194987297058,
+      "initial_event_count": 4,
+      "instrumented_functions_including_callbacks": 7,
+      "original_bytes": 1210,
+      "optimized_bytes": 1118,
+      "bytes_removed": 92,
+      "retained_functions": ["renderSummary", "addCoffee", "addSandwich", "resetCart", "toggleReceipt", "DOMContentLoaded callback"],
+      "emptied_functions": ["neverUsedAdminDiscount"],
+      "incorrectly_emptied_required_functions": [],
+      "run_test_error_log_bytes": 0,
+      "evidence_level": "source_diff_and_saved_trace"
+    }
+  ]
+}

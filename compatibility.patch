@@ -1,0 +1,401 @@
+diff --git a/MainExecution.py b/MainExecution.py
+index fa4aafe..7d06ef9 100644
+--- a/MainExecution.py
++++ b/MainExecution.py
+@@ -9,7 +9,6 @@ def execute(site: str, db_details: dict, proxy_url: str, output_file_directory:
+     data_store = DataStore(site, db_details)
+     data_store.persist_updated_files()
+     chrome_execution = ChromeExecution(site, DefaultEventHandler(), proxy_url=proxy_url, output_file_directory=os.path.abspath(output_file_directory))
+-    
+     try:
+         chrome_execution.execute()
+         used_function_id_map = LogParser.parse_logs(chrome_execution.logs, data_store.request_url_content_file_map)
+@@ -17,10 +16,8 @@ def execute(site: str, db_details: dict, proxy_url: str, output_file_directory:
+         data_store.persist_updated_files()
+ 
+     except Exception as e:
+-        chrome_execution.close_tools()
+-        used_function_id_map = LogParser.parse_logs(chrome_execution.logs, data_store.request_url_content_file_map)
+-        data_store.remove_unused_functions(used_function_id_map)
+-        data_store.persist_updated_files()
++        try:
++            chrome_execution.close_tools()
++        except Exception:
++            pass
+         raise e
+-        
+-    
+\ No newline at end of file
+diff --git a/browser_interaction_bot/ChromeExecution.py b/browser_interaction_bot/ChromeExecution.py
+index 391d837..dbd09b9 100644
+--- a/browser_interaction_bot/ChromeExecution.py
++++ b/browser_interaction_bot/ChromeExecution.py
+@@ -3,9 +3,8 @@ import psutil
+ from shutil import rmtree
+ from json import dumps
+ import time
+-from seleniumwire import webdriver
++from selenium import webdriver
+ from selenium.webdriver import ChromeOptions
+-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+ from collections import deque
+ from .event_handling.BrowserInteractions import BrowserInteractions
+ from .HTMLDocumentUtil import HTMLDocumentUtil
+@@ -14,9 +13,20 @@ from .event_handling.Event import Event
+ from .event_handling.exceptions.InteractionBotException import InteractionBotException
+ from .DOTFileBuilder import DOTFileBuilder
+ import chromedriver_autoinstaller
++from selenium.webdriver.chrome.service import Service
+ from selenium.common.exceptions import NoSuchWindowException, UnexpectedAlertPresentException, TimeoutException
+ 
+-chromedriver_autoinstaller.install()
++chrome_version = chromedriver_autoinstaller.get_chrome_version()
++cached_chromedriver = None
++if chrome_version:
++    cached_chromedriver = path.join(
++        path.dirname(chromedriver_autoinstaller.__file__),
++        chrome_version.split(".")[0],
++        "chromedriver"
++    )
++
++if not cached_chromedriver or not path.isfile(cached_chromedriver):
++    cached_chromedriver = chromedriver_autoinstaller.install()
+ 
+ class ChromeExecution:
+     def __init__(self, url: str, event_handler: EventHandler, output_file_directory: str = None, proxy_url: str = None, solution: str = "original"):
+@@ -32,25 +42,17 @@ class ChromeExecution:
+         self.chrome_options = ChromeOptions()
+         self.set_default_chrome_options()
+         
+-        seleniumwire_options = {}
+         if self.proxy_url:
+-            self.chrome_options.add_argument("--proxy-server="+self.proxy_url)
+-            seleniumwire_options = {
+-                'proxy': {
+-                    'http': 'http://'+self.proxy_url,
+-                    'https': 'https://'+self.proxy_url,
+-                    'no_proxy': 'localhost,127.0.0.1'
+-                }
+-            }
++            self.chrome_options.add_argument("--proxy-server=http://"+self.proxy_url)
++            self.chrome_options.add_argument("--proxy-bypass-list=<-loopback>")
+ 
+         if self.solution == "original":
+             self.trace_file = open(self.output_file_directory + "/" + "trace", "w")
+ 
+-        self.desired_capabilities = DesiredCapabilities.CHROME
+-        self.desired_capabilities['goog:loggingPrefs'] = { 'browser':'ALL' }
++        self.chrome_options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
+ 
+-        self.browser = webdriver.Chrome(options=self.chrome_options, seleniumwire_options=seleniumwire_options, desired_capabilities=self.desired_capabilities)
+-        self.browser.request_interceptor = self.interceptor
++        self.browser = self.create_browser()
++        self.configure_request_headers()
+         self.event_handler.set_browser(self.browser)
+         self.dot_file_builder = DOTFileBuilder(self.output_file_directory)
+         self.child_processes = self.determine_child_processes(self.browser.service.process.pid)
+@@ -58,11 +60,30 @@ class ChromeExecution:
+ 
+     def set_default_chrome_options(self) -> None:
+         # self.chrome_options.add_experimental_option("profile.default_content_setting_values.notifications", 2)
+-        mobile_emulation = { "deviceName": "iPhone X" }
++        mobile_emulation = {
++            "deviceMetrics": {
++                "width": 375,
++                "height": 812,
++                "pixelRatio": 3.0,
++                "mobile": True,
++                "touch": True
++            },
++            "userAgent": (
++                "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) "
++                "AppleWebKit/605.1.15 (KHTML, like Gecko) "
++                "Version/16.0 Mobile/15E148 Safari/604.1"
++            )
++        }
+         self.chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
+         self.chrome_options.add_argument("--ignore-certificate-errors")
+         self.chrome_options.add_argument("--no-sandbox")
+         self.chrome_options.add_argument("--headless")
++        self.chrome_options.add_argument("--disable-background-networking")
++        self.chrome_options.add_argument("--disable-component-update")
++        self.chrome_options.add_argument("--disable-default-apps")
++        self.chrome_options.add_argument("--disable-sync")
++        self.chrome_options.add_argument("--metrics-recording-only")
++        self.chrome_options.add_argument("--no-first-run")
+         self.chrome_options.page_load_strategy = 'eager'
+         self.chrome_options.add_argument("--user-data-dir={}".format(self.output_file_directory+"/chrome_data"))
+ 
+@@ -70,13 +91,26 @@ class ChromeExecution:
+         p = psutil.Process(process_id)
+         return p.children(recursive=True)
+ 
++    def create_browser(self):
++        if cached_chromedriver:
++            return webdriver.Chrome(
++                service=Service(cached_chromedriver),
++                options=self.chrome_options
++            )
++        return webdriver.Chrome(options=self.chrome_options)
++
+     def create_directory(self, output_directory: str) -> None:
+         if not path.exists(output_directory):
+             makedirs(output_directory)
+ 
+-    def interceptor(self, request):
+-        request.headers['init_url'] = self.url
+-        request.headers['solution'] = self.solution
++    def configure_request_headers(self) -> None:
++        self.browser.execute_cdp_cmd("Network.enable", {})
++        self.browser.execute_cdp_cmd("Network.setExtraHTTPHeaders", {
++            "headers": {
++                "init_url": self.url,
++                "solution": self.solution
++            }
++        })
+ 
+     def screenshot(self) -> None:
+         self.screenshot_count += 1
+@@ -88,11 +122,13 @@ class ChromeExecution:
+ 
+     def get_logs(self) -> None:
+         try:
+-            with open(self.output_file_directory+"/chrome_data/Default/chrome_debug.log") as log_file:
+-                self.logs = set(log_file.read().split("\n"))
+-            print(len(self.logs))
+-        except FileNotFoundError as e:
+-            print(e)
++            for entry in self.browser.get_log("browser"):
++                message = entry.get("message")
++                if message:
++                    self.logs.add(message)
++        except Exception as e:
++            print("Unable to read browser logs:", e)
++        print(len(self.logs))
+         
+     
+     def get_local_storage_keys(self) -> None:
+@@ -141,17 +177,8 @@ class ChromeExecution:
+         self.force_close_process()
+         self.remove_chrome_data()
+ 
+-        seleniumwire_options = {}
+-        if self.proxy_url:
+-            seleniumwire_options = {
+-                'proxy': {
+-                    'http': 'http://'+self.proxy_url,
+-                    'https': 'https://'+self.proxy_url,
+-                    'no_proxy': 'localhost,127.0.0.1'
+-                }
+-            }
+-        self.browser = webdriver.Chrome(options=self.chrome_options, seleniumwire_options=seleniumwire_options, desired_capabilities=self.desired_capabilities)
+-        self.browser.request_interceptor = self.interceptor
++        self.browser = self.create_browser()
++        self.configure_request_headers()
+         self.event_handler.set_browser(self.browser)
+         self.child_processes = self.determine_child_processes(self.browser.service.process.pid)
+ 
+@@ -250,4 +277,4 @@ class ChromeExecution:
+         print("Complete")
+         self.get_logs()
+         self.close_tools()
+-        return None
+\ No newline at end of file
++        return None
+diff --git a/browser_interaction_bot/event_handling/BrowserInteractions.py b/browser_interaction_bot/event_handling/BrowserInteractions.py
+index c1f4041..36d4307 100644
+--- a/browser_interaction_bot/event_handling/BrowserInteractions.py
++++ b/browser_interaction_bot/event_handling/BrowserInteractions.py
+@@ -36,7 +36,9 @@ class BrowserInteractions:
+     def wait_for_page_load(cls, browser: Chrome) -> None:
+         start_time = time()
+         try:
+-            WebDriverWait(browser, PAGE_LOAD_WAIT_TIME).until(browser.execute_script("return document.readyState") == "complete")
++            WebDriverWait(browser, PAGE_LOAD_WAIT_TIME).until(
++                lambda driver: driver.execute_script("return document.readyState") == "complete"
++            )
+         except:
+             try:
+                 browser.execute_script("return window.stop();")
+@@ -122,4 +124,4 @@ class BrowserInteractions:
+ 
+     @staticmethod
+     def wait(seconds: int) -> None:
+-        sleep(seconds)
+\ No newline at end of file
++        sleep(seconds)
+diff --git a/browser_interaction_bot/event_handling/DefaultEventHandler.py b/browser_interaction_bot/event_handling/DefaultEventHandler.py
+index 3cf5132..d171531 100644
+--- a/browser_interaction_bot/event_handling/DefaultEventHandler.py
++++ b/browser_interaction_bot/event_handling/DefaultEventHandler.py
+@@ -1,4 +1,4 @@
+-from seleniumwire.webdriver import Chrome
++from selenium.webdriver import Chrome
+ from selenium.common.exceptions import NoSuchElementException, MoveTargetOutOfBoundsException, JavascriptException
+ from selenium.webdriver.common.action_chains import ActionChains
+ from selenium.webdriver.common.by import By
+@@ -89,4 +89,3 @@ class DefaultEventHandler(EventHandler):
+                 raise InteractionBotException
+ 
+         return element
+-
+diff --git a/proxies/cache_proxy.py b/proxies/cache_proxy.py
+index e3696d5..42cf7fc 100644
+--- a/proxies/cache_proxy.py
++++ b/proxies/cache_proxy.py
+@@ -46,13 +46,19 @@ class CacheProxy:
+ 
+ 
+     def request(self, flow: http.HTTPFlow) -> None:
++        flow.initiatingUrl = None
++        initiatingUrl = flow.request.headers.get("init_url")
++
++        # Chrome also sends update and account requests through the proxy.
++        # Only Muzeel requests carry init_url and should be cached.
++        if not initiatingUrl:
++            return
++
+         # store the request time
+         requestUrl = flow.request.pretty_url.split("?")[0]
+         requests[requestUrl] = time.time()
+-        flow.initiatingUrl = None
+-        initiatingUrl = flow.request.headers["init_url"]
+         del flow.request.headers["init_url"]
+-        del flow.request.headers["solution"]
++        flow.request.headers.pop("solution", None)
+         
+         try:
+             with self.connection.cursor() as cursor:
+@@ -114,7 +120,7 @@ class CacheProxy:
+         # randomize filename
+         name = flow.request.pretty_url.split("?")[0]
+         # flow.response.headers["dbPassword"] = str(ctx.options.dbPassword)
+-        if flow.initiatingUrl:
++        if getattr(flow, "initiatingUrl", None):
+             try:
+                 with self.connection.cursor() as cursor:
+                     requestUrl = flow.request.pretty_url.split("?")[0]
+@@ -183,4 +189,4 @@ class CacheProxy:
+ 
+ addons = [
+     CacheProxy()
+-]
+\ No newline at end of file
++]
+diff --git a/proxies/read_proxy.py b/proxies/read_proxy.py
+index b152e13..65e785d 100644
+--- a/proxies/read_proxy.py
++++ b/proxies/read_proxy.py
+@@ -52,18 +52,15 @@ class ReadProxy:
+         if self.connection.cursor().connection.open != True:
+             self.reconnect()
+ 
++        initiatingUrl = flow.request.headers.get("init_url")
++        if not initiatingUrl:
++            return
++
+         # store the request time
+         requestUrl = flow.request.pretty_url.split("?")[0]
+         requests[requestUrl] = time.time()
+-        try:
+-            initiatingUrl = flow.request.headers["init_url"]
+-            del flow.request.headers["init_url"]
+-        except KeyError as e:
+-            print(e)
+-            print(flow.request.headers)
+-            return
+-        
+-        del flow.request.headers["solution"]
++        del flow.request.headers["init_url"]
++        flow.request.headers.pop("solution", None)
+ 
+         try:
+             with self.connection.cursor() as cursor:
+diff --git a/scraper.py b/scraper.py
+index d262a3a..db3b288 100644
+--- a/scraper.py
++++ b/scraper.py
+@@ -1,49 +1,58 @@
+-from seleniumwire import webdriver
++from selenium import webdriver
+ from selenium.webdriver import ChromeOptions
+ from browser_interaction_bot.event_handling.BrowserInteractions import BrowserInteractions
+ import sys
++import chromedriver_autoinstaller
++
++chromedriver_autoinstaller.install()
+ 
+ proxy_port = sys.argv[1]
+ filename = sys.argv[2]
+ chrome_options = ChromeOptions()
+-mobile_emulation = { "deviceName": "iPhone X" }
++mobile_emulation = {
++    "deviceMetrics": {
++        "width": 375,
++        "height": 812,
++        "pixelRatio": 3.0,
++        "mobile": True,
++        "touch": True
++    },
++    "userAgent": (
++        "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) "
++        "AppleWebKit/605.1.15 (KHTML, like Gecko) "
++        "Version/16.0 Mobile/15E148 Safari/604.1"
++    )
++}
+ chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
+ chrome_options.add_argument("--ignore-certificate-errors")
+ chrome_options.add_argument("--no-sandbox")
+ chrome_options.add_argument("--disable-popup-blocking")
+ chrome_options.add_argument("--headless")
++chrome_options.add_argument("--proxy-bypass-list=<-loopback>")
++chrome_options.add_argument("--proxy-server=http://127.0.0.1:{}".format(proxy_port))
+ output_file = open("scrape_results_clone", "w")
+-error_file = open("error_log_clone", "a")
++error_file = open("error_log_clone", "w")
+ print(proxy_port)
+-seleniumwire_options = {
+-    'proxy': {
+-        'http': 'http://127.0.0.1:{}'.format(proxy_port),
+-        'https': 'https://127.0.0.1:{}'.format(proxy_port),
+-        'no_proxy': 'localhost,127.0.0.1'
+-    }
+-}
+-
+-
+ with open(filename, "r") as scrape_list:
+-    for in_i, url in enumerate(scrape_list.read().split("\n")):
++    for in_i, raw_url in enumerate(scrape_list.read().splitlines()):
++        url = raw_url.strip()
++        if not url:
++            continue
+         print("Running",in_i, url)
+-        driver = webdriver.Chrome(options=chrome_options, seleniumwire_options=seleniumwire_options)
+-        
+-        def interceptor(request):
+-            request.headers['init_url'] = url
+-            request.headers['solution'] = "original"
+-
+-        driver.request_interceptor = interceptor
++        driver = webdriver.Chrome(options=chrome_options)
++        driver.execute_cdp_cmd("Network.enable", {})
++        driver.execute_cdp_cmd("Network.setExtraHTTPHeaders", {
++            "headers": {
++                "init_url": url,
++                "solution": "original"
++            }
++        })
+ 
+         try:
+             BrowserInteractions.open_page(driver, url)
+             BrowserInteractions.scroll_to_bottom(driver)
+ 
+-            js_count = 0
+-            for request in driver.requests:
+-                if request.response:
+-                    if request.response.headers['Content-Type'] and "javascript" in request.response.headers['Content-Type'].split(";")[0]:
+-                        js_count += 1
++            js_count = len(driver.find_elements("tag name", "script"))
+ 
+             driver.close()
+             driver.quit()
