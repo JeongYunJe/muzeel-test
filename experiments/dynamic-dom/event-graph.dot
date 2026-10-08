@@ -1,0 +1,5 @@
+digraph eventGraph {
+"/html/body | baseEvent"->"(//input[@id='nameInput'])[1] | input"
+"/html/body | baseEvent"->"(//button[@id='initialButton'])[1] | click"
+"/html/body | baseEvent"->"(//button[@id='menuButton'])[1] | click"->"(//button[@id='menuItem'])[1] | click"
+}
