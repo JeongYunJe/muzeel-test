@@ -1,0 +1,45 @@
+--- a/browser_interaction_bot/HTMLDocumentUtil.py
++++ b/browser_interaction_bot/HTMLDocumentUtil.py
+@@ -51,7 +51,7 @@
+             if action and self.is_actionable(xpath):
+                 # Keep each query as a separate replayable action, so another
+                 # query cannot overwrite it before the exploration refresh.
+-                actions = (["fill:" + letter for letter in "abcdefghijklmnopqrstuvwxyz"]
++                actions = (["search-cycle:a-f"] + ["fill:" + letter for letter in "abcdefghijklmnopqrstuvwxyz"]
+                            if action == "fill" and self.is_search_input(root) else [action])
+                 for candidate_action in actions:
+                     self.stats["semantic_candidates"] += 1
+--- a/browser_interaction_bot/event_handling/DefaultEventHandler.py
++++ b/browser_interaction_bot/event_handling/DefaultEventHandler.py
+@@ -4,6 +4,7 @@
+ from selenium.webdriver.common.by import By
+ from selenium.webdriver.common.keys import Keys
+ from selenium.webdriver.support.ui import Select
++from time import sleep
+ from .exceptions.InteractionBotException import InteractionBotException
+ from .EventHandler import EventHandler
+ from .Event import Event
+@@ -43,7 +44,22 @@
+         event_type = event.event_type
+         element = self.find_element_by_xpath(xpath)
+         try:
+-            if event_type == "fill" or (event_type.startswith("fill:") and event_type[5:] in "abcdefghijklmnopqrstuvwxyz" and len(event_type[5:]) == 1):
++            if event_type == "search-cycle:a-f":
++                element.click()
++                # Backspace emits the input event React needs for controlled
++                # fields. Keep the whole sequence in one replayable action;
++                # do not refresh or await each search's completion here.
++                self.browser.execute_script("arguments[0].select()", element)
++                element.send_keys(Keys.BACKSPACE)
++                for letter in "abcdef":
++                    element.send_keys(letter)
++                    sleep(0.05)
++                    self.browser.execute_script("arguments[0].select()", element)
++                    element.send_keys(Keys.BACKSPACE)
++                    sleep(0.05)
++                # Let the last transition finish before the outer loop refreshes.
++                sleep(0.5)
++            elif event_type == "fill" or (event_type.startswith("fill:") and event_type[5:] in "abcdefghijklmnopqrstuvwxyz" and len(event_type[5:]) == 1):
+                 element.click()
+                 element.clear()
+                 sample = (event_type[5:] if event_type.startswith("fill:") else

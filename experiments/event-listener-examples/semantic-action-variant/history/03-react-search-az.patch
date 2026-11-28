@@ -1,0 +1,49 @@
+--- a/browser_interaction_bot/HTMLDocumentUtil.py
++++ b/browser_interaction_bot/HTMLDocumentUtil.py
+@@ -49,8 +49,13 @@
+                     self.add_candidate(listener["type"], xpath)
+             action = self.semantic_action(root)
+             if action and self.is_actionable(xpath):
+-                self.stats["semantic_candidates"] += 1
+-                self.add_candidate(action, xpath, semantic=True)
++                # Keep each query as a separate replayable action, so another
++                # query cannot overwrite it before the exploration refresh.
++                actions = (["fill:" + letter for letter in "abcdefghijklmnopqrstuvwxyz"]
++                           if action == "fill" and self.is_search_input(root) else [action])
++                for candidate_action in actions:
++                    self.stats["semantic_candidates"] += 1
++                    self.add_candidate(candidate_action, xpath, semantic=True)
+ 
+         child_map = {}
+         for child in root.contents:
+@@ -77,6 +82,14 @@
+                         self.dfs(child, "{}/{}[{}]".format(xpath, tag_name, curr_tag_index))
+ 
+     DEDUPLICATE_ACTIONS = True
++
++    @staticmethod
++    def is_search_input(node):
++        return node.name == "input" and (
++            node.get("type", "text").lower() == "search"
++            or "searchbox" in node.get("role", "").lower().split()
++            or "search" in node.get("placeholder", "").lower()
++            or "검색" in node.get("placeholder", ""))
+ 
+     @staticmethod
+     def xpath_literal(value):
+--- a/browser_interaction_bot/event_handling/DefaultEventHandler.py
++++ b/browser_interaction_bot/event_handling/DefaultEventHandler.py
+@@ -43,10 +43,11 @@
+         event_type = event.event_type
+         element = self.find_element_by_xpath(xpath)
+         try:
+-            if event_type == "fill":
++            if event_type == "fill" or (event_type.startswith("fill:") and event_type[5:] in "abcdefghijklmnopqrstuvwxyz" and len(event_type[5:]) == 1):
+                 element.click()
+                 element.clear()
+-                sample = {"email": "muzeel@example.com", "url": "https://example.com", "tel": "01012345678"}.get(element.get_attribute("type"), "ABCD")
++                sample = (event_type[5:] if event_type.startswith("fill:") else
++                          {"email": "muzeel@example.com", "url": "https://example.com", "tel": "01012345678"}.get(element.get_attribute("type"), "ABCD"))
+                 element.send_keys(sample)
+             elif event_type == "select":
+                 choices = Select(element)
