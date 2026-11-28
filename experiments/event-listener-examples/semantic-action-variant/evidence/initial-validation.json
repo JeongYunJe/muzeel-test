@@ -1,0 +1,346 @@
+{
+  "scope": "Initial semantic/XPath variant; predates a-z and a-f changes",
+  "controls_checks": {
+    "checks": [
+      "click/mousedown/mouseup and duplicate capture/bubble candidates grouped",
+      "disabled, aria-disabled, inert and hidden controls deferred",
+      "increment: delegated handler produced 3",
+      "search: delegated handler produced ABCD",
+      "check: delegated handler produced on",
+      "choice: delegated handler produced two",
+      "custom: delegated handler produced 1",
+      "tab: delegated handler produced selected",
+      "notes: delegated handler produced ABCD",
+      "editor: delegated handler produced ABCD",
+      "newly revealed button discovered and executed",
+      "double-click and drag remain separate actions",
+      "range: adjusted from 0 to 1 without midpoint click",
+      "number: adjusted from 0 to 1 without midpoint click",
+      "quoted class XPath resolves and CDP listener lookup succeeds: tailwind-[class*='size-']",
+      "quoted class XPath resolves and CDP listener lookup succeeds: both-'single'-and-\"double\""
+    ],
+    "candidates": {
+      "original": {
+        "count": 6,
+        "events": [
+          {
+            "event": "click",
+            "xpath": "(//div[@id='root'])[1]"
+          },
+          {
+            "event": "click",
+            "xpath": "(//div[@id='root'])[1]"
+          },
+          {
+            "event": "input",
+            "xpath": "(//div[@id='root'])[1]"
+          },
+          {
+            "event": "change",
+            "xpath": "(//div[@id='root'])[1]"
+          },
+          {
+            "event": "mousedown",
+            "xpath": "(//div[@id='root'])[1]"
+          },
+          {
+            "event": "mouseup",
+            "xpath": "(//div[@id='root'])[1]"
+          }
+        ],
+        "collection_seconds": 0.05353533399999999
+      },
+      "semantic": {
+        "count": 15,
+        "events": [
+          {
+            "event": "click",
+            "xpath": "(//div[@id='root'])[1]"
+          },
+          {
+            "event": "click",
+            "xpath": "(//div[@id='root'])[1]"
+          },
+          {
+            "event": "input",
+            "xpath": "(//div[@id='root'])[1]"
+          },
+          {
+            "event": "change",
+            "xpath": "(//div[@id='root'])[1]"
+          },
+          {
+            "event": "mousedown",
+            "xpath": "(//div[@id='root'])[1]"
+          },
+          {
+            "event": "mouseup",
+            "xpath": "(//div[@id='root'])[1]"
+          },
+          {
+            "event": "click",
+            "xpath": "(//button[@id='increment'])[1]"
+          },
+          {
+            "event": "fill",
+            "xpath": "(//input[@id='search'])[1]"
+          },
+          {
+            "event": "click",
+            "xpath": "(//input[@id='check'])[1]"
+          },
+          {
+            "event": "select",
+            "xpath": "(//select[@id='choice'])[1]"
+          },
+          {
+            "event": "click",
+            "xpath": "(//div[@id='custom'])[1]"
+          },
+          {
+            "event": "click",
+            "xpath": "(//div[@id='tab'])[1]"
+          },
+          {
+            "event": "fill",
+            "xpath": "(//textarea[@id='notes'])[1]"
+          },
+          {
+            "event": "fill",
+            "xpath": "(//div[@id='editor'])[1]"
+          },
+          {
+            "event": "click",
+            "xpath": "(//button[@id='menu'])[1]"
+          }
+        ],
+        "collection_seconds": 0.20099058300000028
+      },
+      "semantic-dedup": {
+        "count": 12,
+        "events": [
+          {
+            "event": "click",
+            "xpath": "(//div[@id='root'])[1]"
+          },
+          {
+            "event": "input",
+            "xpath": "(//div[@id='root'])[1]"
+          },
+          {
+            "event": "change",
+            "xpath": "(//div[@id='root'])[1]"
+          },
+          {
+            "event": "click",
+            "xpath": "(//button[@id='increment'])[1]"
+          },
+          {
+            "event": "fill",
+            "xpath": "(//input[@id='search'])[1]"
+          },
+          {
+            "event": "click",
+            "xpath": "(//input[@id='check'])[1]"
+          },
+          {
+            "event": "select",
+            "xpath": "(//select[@id='choice'])[1]"
+          },
+          {
+            "event": "click",
+            "xpath": "(//div[@id='custom'])[1]"
+          },
+          {
+            "event": "click",
+            "xpath": "(//div[@id='tab'])[1]"
+          },
+          {
+            "event": "fill",
+            "xpath": "(//textarea[@id='notes'])[1]"
+          },
+          {
+            "event": "fill",
+            "xpath": "(//div[@id='editor'])[1]"
+          },
+          {
+            "event": "click",
+            "xpath": "(//button[@id='menu'])[1]"
+          }
+        ],
+        "collection_seconds": 0.17939291699999993
+      }
+    },
+    "browser": "150.0.7871.124",
+    "passed": 16,
+    "variant_sources": {
+      "HTMLDocumentUtil.py": "54557c48c62be9e3ad3dbd17a989cab1c1bbbcb50c8d4ed4a1203f1bc5600987",
+      "DefaultEventHandler.py": "72ed94a5aaa805402f5e1d1a93198d2e506df9b880c9c5e1dac7becd1302359e",
+      "ChromeExecution.py": "ca1b00e7c20997c0f34bba7bd7673e86387ad5ce3f6d303784951f9409a9c3d2"
+    }
+  },
+  "results": [
+    {
+      "label": "controls-semantic-dedup-original",
+      "target": "controls",
+      "policy": "semantic-dedup",
+      "variant": "original",
+      "passed": 9,
+      "total": 9,
+      "browser": "150.0.7871.124"
+    },
+    {
+      "label": "controls-semantic-dedup-instrumented",
+      "target": "controls",
+      "policy": "semantic-dedup",
+      "variant": "instrumented",
+      "passed": 9,
+      "total": 9,
+      "browser": "150.0.7871.124"
+    },
+    {
+      "label": "controls-semantic-dedup-optimized",
+      "target": "controls",
+      "policy": "semantic-dedup",
+      "variant": "optimized",
+      "passed": 9,
+      "total": 9,
+      "browser": "150.0.7871.124"
+    },
+    {
+      "label": "controls-semantic-original",
+      "target": "controls",
+      "policy": "semantic",
+      "variant": "original",
+      "passed": 9,
+      "total": 9,
+      "browser": "150.0.7871.124"
+    },
+    {
+      "label": "controls-semantic-instrumented",
+      "target": "controls",
+      "policy": "semantic",
+      "variant": "instrumented",
+      "passed": 9,
+      "total": 9,
+      "browser": "150.0.7871.124"
+    },
+    {
+      "label": "controls-semantic-optimized",
+      "target": "controls",
+      "policy": "semantic",
+      "variant": "optimized",
+      "passed": 9,
+      "total": 9,
+      "browser": "150.0.7871.124"
+    },
+    {
+      "label": "direct-semantic-dedup-original",
+      "target": "direct",
+      "policy": "semantic-dedup",
+      "variant": "original",
+      "passed": 2,
+      "total": 2,
+      "browser": "150.0.7871.124"
+    },
+    {
+      "label": "direct-semantic-dedup-instrumented",
+      "target": "direct",
+      "policy": "semantic-dedup",
+      "variant": "instrumented",
+      "passed": 2,
+      "total": 2,
+      "browser": "150.0.7871.124"
+    },
+    {
+      "label": "direct-semantic-dedup-optimized",
+      "target": "direct",
+      "policy": "semantic-dedup",
+      "variant": "optimized",
+      "passed": 2,
+      "total": 2,
+      "browser": "150.0.7871.124"
+    },
+    {
+      "label": "delegated-semantic-dedup-original",
+      "target": "delegated",
+      "policy": "semantic-dedup",
+      "variant": "original",
+      "passed": 2,
+      "total": 2,
+      "browser": "150.0.7871.124"
+    },
+    {
+      "label": "delegated-semantic-dedup-instrumented",
+      "target": "delegated",
+      "policy": "semantic-dedup",
+      "variant": "instrumented",
+      "passed": 2,
+      "total": 2,
+      "browser": "150.0.7871.124"
+    },
+    {
+      "label": "delegated-semantic-dedup-optimized",
+      "target": "delegated",
+      "policy": "semantic-dedup",
+      "variant": "optimized",
+      "passed": 2,
+      "total": 2,
+      "browser": "150.0.7871.124"
+    },
+    {
+      "label": "react-semantic-dedup-original",
+      "target": "react",
+      "policy": "semantic-dedup",
+      "variant": "original",
+      "passed": 6,
+      "total": 6,
+      "browser": "150.0.7871.124"
+    },
+    {
+      "label": "react-semantic-dedup-instrumented",
+      "target": "react",
+      "policy": "semantic-dedup",
+      "variant": "instrumented",
+      "passed": 6,
+      "total": 6,
+      "browser": "150.0.7871.124"
+    },
+    {
+      "label": "react-semantic-dedup-optimized",
+      "target": "react",
+      "policy": "semantic-dedup",
+      "variant": "optimized",
+      "passed": 2,
+      "total": 6,
+      "browser": "150.0.7871.124"
+    },
+    {
+      "label": "react-original-original",
+      "target": "react",
+      "policy": "original",
+      "variant": "original",
+      "passed": 6,
+      "total": 6,
+      "browser": "150.0.7871.124"
+    },
+    {
+      "label": "react-original-instrumented",
+      "target": "react",
+      "policy": "original",
+      "variant": "instrumented",
+      "passed": 6,
+      "total": 6,
+      "browser": "150.0.7871.124"
+    },
+    {
+      "label": "react-original-optimized",
+      "target": "react",
+      "policy": "original",
+      "variant": "optimized",
+      "passed": 1,
+      "total": 6,
+      "browser": "150.0.7871.124"
+    }
+  ]
+}

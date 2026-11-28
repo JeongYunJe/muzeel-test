@@ -1,0 +1,74 @@
+{
+  "scope": "Frozen Async React bundle a925cb65... in measured Chrome 158 environment; supported app entry points, unchanged environment/API options at initialization",
+  "judgment": "Strong conditional removal candidates based on unselected branches or fixed options; not inferred from lack of execution alone",
+  "count": 17,
+  "bytes": 950,
+  "groups": [
+    {
+      "category": "Node Buffer-only Base64 branches",
+      "body_starts": [
+        316354,
+        316423,
+        317035,
+        318147,
+        318216,
+        318380
+      ],
+      "count": 6,
+      "bytes": 265,
+      "condition": "Buffer is undefined at module initialization; _hasBuffer is false. These function expressions are in unselected ternary branches."
+    },
+    {
+      "category": "Uint8Array.from fallback",
+      "body_starts": [
+        315770
+      ],
+      "count": 1,
+      "bytes": 54,
+      "condition": "Uint8Array.from is a function at initialization; native implementation is selected."
+    },
+    {
+      "category": "React clz32Fallback",
+      "body_starts": [
+        28636
+      ],
+      "count": 1,
+      "bytes": 40,
+      "condition": "Math.clz32 exists at initialization; private fallback is not selected."
+    },
+    {
+      "category": "Scheduler environment fallbacks",
+      "body_starts": [
+        12809,
+        13915,
+        14076
+      ],
+      "count": 3,
+      "bytes": 27,
+      "condition": "performance.now exists; setImmediate does not exist; MessageChannel exists. Date.now, setImmediate and setTimeout work-loop alternatives are not selected. This does not classify general timers as unused."
+    },
+    {
+      "category": "modulepreload fallback helpers",
+      "body_starts": [
+        1346,
+        1608
+      ],
+      "count": 2,
+      "bytes": 298,
+      "condition": "relList.supports(\"modulepreload\") is true; polyfill returns before helper call sites and observer registration."
+    },
+    {
+      "category": "Unused fast-fuzzy option paths in this fixed app",
+      "body_starts": [
+        322446,
+        322667,
+        322736,
+        324492
+      ],
+      "count": 4,
+      "bytes": 266,
+      "condition": "The only app fuzzy.search call supplies keySelector and threshold; useSellers remains true and returnMatchData remains false. No runtime options are supplied from user input."
+    }
+  ],
+  "not_an_implemented_removal_policy": true
+}

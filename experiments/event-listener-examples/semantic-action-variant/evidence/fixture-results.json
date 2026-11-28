@@ -1,0 +1,54 @@
+[
+  {
+    "target": "controls",
+    "policy": "semantic-dedup",
+    "seconds": 125.03286123275757,
+    "initial_event_candidates": [
+      12
+    ],
+    "total_instrumented_ordinary_functions": 15,
+    "observed_function_ids_in_external_log_capture": 14,
+    "actual_removed_body_ranges": 1,
+    "original_bytes": 2131,
+    "optimized_bytes": 2107
+  },
+  {
+    "target": "controls",
+    "policy": "semantic",
+    "seconds": 153.45110607147217,
+    "initial_event_candidates": [
+      15
+    ],
+    "total_instrumented_ordinary_functions": 15,
+    "observed_function_ids_in_external_log_capture": 14,
+    "actual_removed_body_ranges": 1,
+    "original_bytes": 2131,
+    "optimized_bytes": 2107
+  },
+  {
+    "target": "direct",
+    "policy": "semantic-dedup",
+    "seconds": 21.365744829177856,
+    "initial_event_candidates": [
+      1
+    ],
+    "total_instrumented_ordinary_functions": 1,
+    "observed_function_ids_in_external_log_capture": 1,
+    "actual_removed_body_ranges": 0,
+    "original_bytes": 333,
+    "optimized_bytes": 333
+  },
+  {
+    "target": "delegated",
+    "policy": "semantic-dedup",
+    "seconds": 30.726033210754395,
+    "initial_event_candidates": [
+      2
+    ],
+    "total_instrumented_ordinary_functions": 2,
+    "observed_function_ids_in_external_log_capture": 2,
+    "actual_removed_body_ranges": 0,
+    "original_bytes": 531,
+    "optimized_bytes": 531
+  }
+]

@@ -1,0 +1,619 @@
+{
+  "browser_scope": "Chrome 158 desktop; exact latest React optimized asset",
+  "initial_suite": [
+    {
+      "label": "original",
+      "browser": "158.0.8127.37",
+      "passed": 11,
+      "total": 11,
+      "asset_sha256": "a925cb65f7815a1d671229fbc7339c4a14f5efb6a8fb10c6112cda943800b1ef",
+      "checks": [
+        {
+          "name": "initial-list",
+          "passed": true,
+          "state": {
+            "input": "",
+            "pending": false,
+            "lessons": 6,
+            "checked": 0,
+            "selected": [
+              "All"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "search-various-and-clear",
+          "passed": true,
+          "state": {
+            "input": "",
+            "pending": false,
+            "lessons": 6,
+            "checked": 0,
+            "selected": [
+              "All"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "rapid-type-clear-retype",
+          "passed": true,
+          "state": {
+            "input": "Suspense",
+            "pending": false,
+            "lessons": 1,
+            "checked": 0,
+            "selected": [
+              "All"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "complete-filter-uncomplete",
+          "passed": true,
+          "state": {
+            "input": "",
+            "pending": false,
+            "lessons": 0,
+            "checked": 0,
+            "selected": [
+              "Complete"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "complete-from-search",
+          "passed": true,
+          "state": {
+            "input": "",
+            "pending": false,
+            "lessons": 5,
+            "checked": 0,
+            "selected": [
+              "In Progress"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "keyboard-tabs-arrow-end-space",
+          "passed": true,
+          "state": {
+            "input": "",
+            "pending": false,
+            "lessons": 0,
+            "checked": 0,
+            "selected": [
+              "Complete"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "history-back-forward",
+          "passed": true,
+          "state": {
+            "input": "React",
+            "pending": false,
+            "lessons": 2,
+            "checked": 0,
+            "selected": [
+              "All"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "delayed-search-and-replace",
+          "passed": true,
+          "state": {
+            "input": "Actions",
+            "pending": false,
+            "lessons": 1,
+            "checked": 0,
+            "selected": [
+              "All"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "delayed-two-completions",
+          "passed": true,
+          "state": {
+            "input": "",
+            "pending": false,
+            "lessons": 4,
+            "checked": 0,
+            "selected": [
+              "In Progress"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "direct-search-url",
+          "passed": true,
+          "state": {
+            "input": "Suspense",
+            "pending": false,
+            "lessons": 1,
+            "checked": 0,
+            "selected": [
+              "All"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "login-route-and-submit",
+          "passed": true,
+          "state": {
+            "input": "",
+            "pending": false,
+            "lessons": 6,
+            "checked": 0,
+            "selected": [
+              "All"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        }
+      ]
+    },
+    {
+      "label": "optimized",
+      "browser": "158.0.8127.37",
+      "passed": 5,
+      "total": 11,
+      "asset_sha256": "d37b9b35eb8fa3e3475733d183983040773067bf8d44accf89791a306526e8c3",
+      "checks": [
+        {
+          "name": "initial-list",
+          "passed": true,
+          "state": {
+            "input": "",
+            "pending": false,
+            "lessons": 6,
+            "checked": 0,
+            "selected": [
+              "All"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "search-various-and-clear",
+          "passed": true,
+          "state": {
+            "input": "",
+            "pending": false,
+            "lessons": 6,
+            "checked": 0,
+            "selected": [
+              "All"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "rapid-type-clear-retype",
+          "passed": false,
+          "state": {
+            "input": "Suspense",
+            "pending": true,
+            "lessons": 2,
+            "checked": 0,
+            "selected": [
+              "All"
+            ],
+            "transition": false
+          },
+          "error_messages": [
+            "Error: Minified React error #177; visit https://react.dev/errors/177 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.",
+            "TypeError: Cannot read properties of null (reading 'name')"
+          ]
+        },
+        {
+          "name": "complete-filter-uncomplete",
+          "passed": true,
+          "state": {
+            "input": "",
+            "pending": false,
+            "lessons": 0,
+            "checked": 0,
+            "selected": [
+              "Complete"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "complete-from-search",
+          "passed": false,
+          "state": {
+            "input": "Suspense",
+            "pending": false,
+            "lessons": 1,
+            "checked": 0,
+            "selected": [
+              "All"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "keyboard-tabs-arrow-end-space",
+          "passed": false,
+          "state": {
+            "input": "",
+            "pending": false,
+            "lessons": 6,
+            "checked": 0,
+            "selected": [
+              "All"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "history-back-forward",
+          "passed": true,
+          "state": {
+            "input": "React",
+            "pending": false,
+            "lessons": 2,
+            "checked": 0,
+            "selected": [
+              "All"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "delayed-search-and-replace",
+          "passed": false,
+          "state": {
+            "input": "Actions",
+            "pending": false,
+            "lessons": 1,
+            "checked": 0,
+            "selected": [
+              "All"
+            ],
+            "transition": false
+          },
+          "error_messages": [
+            "Error: Minified React error #177; visit https://react.dev/errors/177 for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+          ]
+        },
+        {
+          "name": "delayed-two-completions",
+          "passed": false,
+          "state": {
+            "input": "",
+            "pending": false,
+            "lessons": 6,
+            "checked": 1,
+            "selected": [
+              "All"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "direct-search-url",
+          "passed": true,
+          "state": {
+            "input": "Suspense",
+            "pending": false,
+            "lessons": 1,
+            "checked": 0,
+            "selected": [
+              "All"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "login-route-and-submit",
+          "passed": false,
+          "state": {
+            "input": null,
+            "pending": false,
+            "lessons": 0,
+            "checked": 0,
+            "selected": [],
+            "transition": false
+          },
+          "error_messages": []
+        }
+      ]
+    }
+  ],
+  "settled_click_followup": [
+    {
+      "label": "original-settled",
+      "browser": "158.0.8127.37",
+      "passed": 4,
+      "total": 4,
+      "asset_sha256": "a925cb65f7815a1d671229fbc7339c4a14f5efb6a8fb10c6112cda943800b1ef",
+      "checks": [
+        {
+          "name": "complete-from-search",
+          "passed": true,
+          "state": {
+            "input": "",
+            "pending": false,
+            "lessons": 5,
+            "checked": 0,
+            "selected": [
+              "In Progress"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "keyboard-tabs-arrow-end-space",
+          "passed": true,
+          "state": {
+            "input": "",
+            "pending": false,
+            "lessons": 0,
+            "checked": 0,
+            "selected": [
+              "Complete"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "delayed-two-completions",
+          "passed": true,
+          "state": {
+            "input": "",
+            "pending": false,
+            "lessons": 4,
+            "checked": 0,
+            "selected": [
+              "In Progress"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "login-route-and-submit",
+          "passed": true,
+          "state": {
+            "input": "",
+            "pending": false,
+            "lessons": 6,
+            "checked": 0,
+            "selected": [
+              "All"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        }
+      ]
+    },
+    {
+      "label": "optimized-settled",
+      "browser": "158.0.8127.37",
+      "passed": 2,
+      "total": 4,
+      "asset_sha256": "d37b9b35eb8fa3e3475733d183983040773067bf8d44accf89791a306526e8c3",
+      "checks": [
+        {
+          "name": "complete-from-search",
+          "passed": true,
+          "state": {
+            "input": "",
+            "pending": false,
+            "lessons": 5,
+            "checked": 0,
+            "selected": [
+              "In Progress"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "keyboard-tabs-arrow-end-space",
+          "passed": false,
+          "state": {
+            "input": "",
+            "pending": false,
+            "lessons": 6,
+            "checked": 0,
+            "selected": [
+              "All"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "delayed-two-completions",
+          "passed": true,
+          "state": {
+            "input": "",
+            "pending": false,
+            "lessons": 4,
+            "checked": 0,
+            "selected": [
+              "In Progress"
+            ],
+            "transition": false
+          },
+          "error_messages": []
+        },
+        {
+          "name": "login-route-and-submit",
+          "passed": false,
+          "state": {
+            "input": null,
+            "pending": false,
+            "lessons": 0,
+            "checked": 0,
+            "selected": [],
+            "transition": false
+          },
+          "error_messages": []
+        }
+      ]
+    }
+  ],
+  "rapid_search_repeats": [
+    {
+      "label": "optimized-rapid-repeat-1",
+      "browser": "158.0.8127.37",
+      "passed": 0,
+      "total": 1,
+      "asset_sha256": "d37b9b35eb8fa3e3475733d183983040773067bf8d44accf89791a306526e8c3",
+      "checks": [
+        {
+          "name": "rapid-type-clear-retype",
+          "passed": false,
+          "state": {
+            "input": "Suspense",
+            "pending": true,
+            "lessons": 2,
+            "checked": 0,
+            "selected": [
+              "All"
+            ],
+            "transition": false
+          },
+          "error_messages": [
+            "Error: Minified React error #177; visit https://react.dev/errors/177 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.",
+            "TypeError: Cannot read properties of null (reading 'name')"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "optimized-rapid-repeat-2",
+      "browser": "158.0.8127.37",
+      "passed": 0,
+      "total": 1,
+      "asset_sha256": "d37b9b35eb8fa3e3475733d183983040773067bf8d44accf89791a306526e8c3",
+      "checks": [
+        {
+          "name": "rapid-type-clear-retype",
+          "passed": false,
+          "state": {
+            "input": "Suspense",
+            "pending": true,
+            "lessons": 0,
+            "checked": 0,
+            "selected": [
+              "All"
+            ],
+            "transition": false
+          },
+          "error_messages": [
+            "Error: Minified React error #177; visit https://react.dev/errors/177 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.",
+            "TypeError: Cannot read properties of null (reading 'name')"
+          ]
+        }
+      ]
+    }
+  ],
+  "confirmed_regressions": [
+    {
+      "name": "rapid-search-clear-retype",
+      "reproduction": [
+        "s",
+        "su",
+        "sus",
+        "suspense",
+        "",
+        "React",
+        "",
+        "a",
+        "",
+        "b",
+        "",
+        "c",
+        "",
+        "d",
+        "",
+        "e",
+        "",
+        "f",
+        "",
+        "Suspense"
+      ],
+      "pause_after_each_input_seconds": 0.03,
+      "expected": "Suspense input and one matching lesson; pending false; no errors",
+      "actual": "pending remains true and old or empty results; React #177 and null.name unhandled rejections",
+      "reproduced_in_latest_output_runs": 3,
+      "runs": 3,
+      "exact_deleted_cause": "not established"
+    },
+    {
+      "name": "keyboard-tab-navigation",
+      "reproduction": "Focus All tab, press ArrowRight, then End and Space",
+      "expected": "Focus moves to In Progress, then Complete; Space activates Complete",
+      "actual": "ArrowRight leaves focus on All",
+      "related_deleted_functions": [
+        {
+          "name": "c2",
+          "body_start": 286337,
+          "role": "normalize directional key"
+        },
+        {
+          "name": "o2",
+          "body_start": 286435,
+          "role": "map keyboard event to focus movement"
+        }
+      ]
+    },
+    {
+      "name": "login-route",
+      "reproduction": "Open /login directly",
+      "expected": "Email/password form, Login button, submission returns to home",
+      "actual": "No login form or Login button",
+      "related_deleted_function": {
+        "name": "u4 (Login)",
+        "body_start": 333011
+      }
+    }
+  ],
+  "excluded_initial_failures": {
+    "cases": [
+      "complete-from-search",
+      "delayed-two-completions"
+    ],
+    "reason": "Both original and optimized pass with 700ms wait before clicks; first failures not counted as code regressions"
+  },
+  "vue_functional_validation": "not performed for the latest Vue output at user request"
+}

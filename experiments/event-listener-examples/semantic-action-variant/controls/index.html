@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><title>Delegated controls</title>
+<style>body{font:16px sans-serif;margin:20px} #root{padding:20px;border:1px solid #888} input,textarea,select,button,[role=button],[role=tab],[contenteditable]{display:block;margin:8px;padding:8px} [hidden]{display:none!important}</style>
+<div id="root">
+  <button id="increment">Increment</button><output id="count">0</output>
+  <input id="search" placeholder="Search"><output id="search-result">empty</output>
+  <input id="check" type="checkbox"><output id="check-result">off</output>
+  <select id="choice"><option value="one">One</option><option value="two">Two</option></select><output id="choice-result">one</output>
+  <div id="custom" role="button" tabindex="0">Custom button</div><output id="custom-result">0</output>
+  <div id="tab" role="tab" tabindex="0">Complete</div><output id="tab-result">unselected</output>
+  <textarea id="notes"></textarea><output id="notes-result">empty</output>
+  <div id="editor" contenteditable="true">edit</div><output id="editor-result">empty</output>
+  <button id="menu">Open menu</button><div id="panel" hidden><button id="revealed">Revealed action</button></div><output id="revealed-result">0</output>
+  <button id="disabled" disabled>Disabled</button>
+  <button id="aria-disabled" aria-disabled="true">Disabled by ARIA</button>
+  <div id="inert" inert><button id="inert-button">Inert button</button></div>
+</div>
+<script src="app.js"></script></html>

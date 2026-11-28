@@ -1,0 +1,14 @@
+{
+  "HTMLDocumentUtil.py": {
+    "upstream_sha256": "42bf81da555a6e66c2bff022d55cb265177670868f1a11a9b14851e6e60c8fef",
+    "variant_sha256": "b98cd3447ede1bbae7b88c3c7123c2a0e7532502d3d40b413de5c4897d428268"
+  },
+  "event_handling/DefaultEventHandler.py": {
+    "upstream_sha256": "69aa078849aaaddec9a07dba4c150ce1b21f3aa6bf65a71ca278fa7f940a9269",
+    "variant_sha256": "e66648d657631f278d0a6bd91f72b28058ec061cf7b20eb446d51d391fac4a9f"
+  },
+  "ChromeExecution.py": {
+    "upstream_sha256": "bab424e10b95b0dd388142603182bb720cd6032fc54e61edb504c386167e409a",
+    "variant_sha256": "ca1b00e7c20997c0f34bba7bd7673e86387ad5ce3f6d303784951f9409a9c3d2"
+  }
+}

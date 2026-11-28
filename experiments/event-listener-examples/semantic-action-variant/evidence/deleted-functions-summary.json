@@ -1,0 +1,77 @@
+{
+  "original_sha256": "a925cb65f7815a1d671229fbc7339c4a14f5efb6a8fb10c6112cda943800b1ef",
+  "source_map_matches_frozen_input": true,
+  "total_ordinary_functions": 1155,
+  "observed": 613,
+  "unobserved": 542,
+  "removed_body_ranges": 464,
+  "nested_ordinary_functions_removed_with_parent": 78,
+  "removed_bytes": 87803,
+  "groups": {
+    "Generated helpers": {
+      "count": 2,
+      "removed_bytes": 298
+    },
+    "React": {
+      "count": 35,
+      "removed_bytes": 2594
+    },
+    "React Scheduler": {
+      "count": 10,
+      "removed_bytes": 639
+    },
+    "React DOM": {
+      "count": 353,
+      "removed_bytes": 73956
+    },
+    "Radix UI": {
+      "count": 9,
+      "removed_bytes": 2210
+    },
+    "Application": {
+      "count": 20,
+      "removed_bytes": 5072
+    },
+    "Search: Unicode dependencies": {
+      "count": 30,
+      "removed_bytes": 2746
+    },
+    "Search: fast-fuzzy": {
+      "count": 5,
+      "removed_bytes": 288
+    }
+  },
+  "cleanup_restoration": {
+    "diagnostic_only": true,
+    "body_start": 226540,
+    "role": "clear pending commit callback and timers on cancellation",
+    "body": "state.unsuspend = null; clearTimeout(stylesheetTimer); clearTimeout(imgTimer);",
+    "result": [
+      {
+        "label": "restore-commit-cancel-only",
+        "browser": "158.0.8127.37",
+        "passed": 1,
+        "total": 1,
+        "asset_sha256": "b3dd124068e03ac54839f22a796661322c5b75b6d8001d831f7f8d1b81214acf",
+        "checks": [
+          {
+            "name": "rapid-type-clear-retype",
+            "passed": true,
+            "state": {
+              "input": "Suspense",
+              "pending": false,
+              "lessons": 1,
+              "checked": 0,
+              "selected": [
+                "All"
+              ],
+              "transition": false
+            },
+            "error_messages": []
+          }
+        ]
+      }
+    ],
+    "not_applied_to_exploration_code_or_latest_optimized_output": true
+  }
+}
